@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import ArrowRight from "./icons/ArrowRight";
+import PetraIcon from "./icons/PetraIcon";
 
 const LogoIcon = "/assets/images/logo.png";
 
@@ -9,6 +10,7 @@ const TABS = ["Products", "Protocols", "Tokens", "Use Cases"];
 
 const Navigation = () => {
   const [tab, setTab] = useState("Products");
+  const [key, setKey] = useState("");
 
   const getAptosWallet = () => {
     if ("aptos" in window) {
@@ -22,13 +24,22 @@ const Navigation = () => {
 
   const handleConnectPetraWallet = async () => {
     const wallet: any = getAptosWallet();
+    if (key) {
+      try {
+        await wallet.disconnect();
+        setKey("");
+      } catch (error) {
+        console.log("error: ", error);
+      }
+      return;
+    }
 
-    console.log("wallet: ", wallet);
     try {
       const response = await wallet.connect();
       console.log(response);
       const account = await wallet.account();
       console.log(account);
+      setKey(account.publicKey);
     } catch (error) {
       console.log(error);
     }
@@ -63,7 +74,8 @@ const Navigation = () => {
         style={{ height: 30 }}
         onClick={handleConnectPetraWallet}
       >
-        Connect Wallet <ArrowRight />
+        {key && <PetraIcon />} {key || "Connect Wallet"}
+        <ArrowRight />
       </button>
     </div>
   );
