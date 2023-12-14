@@ -57,6 +57,17 @@ const Navigation = () => {
     );
   };
 
+  function truncateMiddle(str: string, maxLength: number) {
+    if (!str || str.length <= maxLength) {
+      return str;
+    }
+
+    const startLength = Math.floor((maxLength - 3) / 2);
+    const endLength = Math.ceil((maxLength - 3) / 2);
+
+    return `${str.slice(0, startLength)}...${str.slice(-endLength)}`;
+  }
+
   return (
     <div
       className="flex items-center justify-between ml-20 px-8 rounded-xl"
@@ -70,12 +81,27 @@ const Navigation = () => {
         <Tab key={item} label={item} onClick={setTab} />
       ))}
       <button
-        className="pl-9 pr-7 py-2 flex items-center rounded-full bg-white text-black hover:bg-black hover:text-white hover:scale-110 hover:transition-all"
-        style={{ height: 30, width: 213, overflow: "hidden" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 7px",
+          height: 30,
+          width: 213,
+          borderRadius: 15,
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          border: "none",
+          backgroundColor: "white",
+          color: "black",
+          cursor: "pointer",
+          transition: "all 0.3s ease-in-out",
+        }}
         onClick={handleConnectPetraWallet}
       >
-        {key && <PetraIcon />}&nbsp; {key || "Connect Wallet"}
-        <ArrowRight />
+        {key && <PetraIcon />} <span>{truncateMiddle(key, 20)}</span>
+        {!key && "Connect Wallet"}
+        {!key && <ArrowRight />}
       </button>
     </div>
   );
