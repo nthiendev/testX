@@ -71,10 +71,10 @@ const Navigation = () => {
       ))}
       <button
         className="pl-9 pr-7 py-2 flex items-center rounded-full bg-white text-black hover:bg-black hover:text-white hover:scale-110 hover:transition-all"
-        style={{ height: 30 }}
+        style={{ height: 30, width: 213, overflow: "hidden" }}
         onClick={handleConnectPetraWallet}
       >
-        {key && <PetraIcon />} {key || "Connect Wallet"}
+        {key && <PetraIcon />}&nbsp; {key || "Connect Wallet"}
         <ArrowRight />
       </button>
     </div>
